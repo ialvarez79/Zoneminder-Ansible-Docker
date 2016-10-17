@@ -20,12 +20,14 @@ Vagrant.configure(2) do |config|
       #  args: "--name=zoneminder --link=zm-mysql:mysql -p 443:443 --privileged=true"
     end
 
-    ubuntu.vm.provision "shell",
-      inline: "docker rm -v $(docker ps -a -q -f status=exited)",
-      inline: "apt-get update && apt-get upgrade",
-      inline: "apt-get install -y vim tmux"
-
     ubuntu.vm.provision "file", source: "docker-zoneminder", destination: "/home/vagrant/docker-zoneminder"
+    
+    ubuntu.vm.provision "shell",
+    inline: "docker rm -v $(docker ps -a -q -f status=exited)",
+      inline: "apt-get update && apt-get upgrade",
+      inline: "apt-get install -y vim tmux",
+      inline: "cd /home/vagrant/docker-zoneminder && docker build -t rileyschuit/zoneminder .",
+      inline: 'cd /home/bagrant/docker-zoneminder && docker run -dit -e "ZM_MYSQL_USER=zm" -e "ZM_MYSQL_PASS=my-secret-pass" -e "ZM_MYSQL_HOST=zm-mysql" -e "ZM_DB_NAME=zm" --link="zm-mysql:zm-mysql" -p 80:80 rileyschuit/zoneminder'
 
     #ubuntu.vm.provider "virtualbox" do |vb|
     ubuntu.vm.provider "vmware_fusion" do |vb|
