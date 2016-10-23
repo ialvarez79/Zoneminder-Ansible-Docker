@@ -7,7 +7,7 @@
   
 **virtualbox example:**  
 ```vagrant up --provider virtualbox```  
-Then go to [http://localhost:8080/zm](http://localhost:8080/zm)
+Then go to [http://localhost:8080/zm](http://localhost:8080/zm)  
 **vmware_fusion example:**  
 ```vagrant up --provider vmware_fusion```  
 Then go to [http://localhost:8080/zm](http://localhost:8080/zm)  
