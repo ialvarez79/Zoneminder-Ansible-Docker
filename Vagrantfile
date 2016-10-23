@@ -1,15 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# All Vagrant configuration is done below. The "2" in Vagrant.configure
-# configures the configuration version (we support older styles for
-# backwards compatibility). Please don't change it unless you know what
-# you're doing.
-#
-#
-#sudo docker run -d -e MYSQL_ROOT_PASSWORD=uberpass -e MYSQL_DATABASE=zm -e MYSQL_USER=zm -e MYSQL_PASSWORD=my-secret-pass --name=zm-mysql mysql
-#sudo docker run -d --name=zoneminder --link=zm-mysql:mysql -p 443:443 --privileged=true hrwebasst/docker-zoneminder
-#
 Vagrant.configure(2) do |config|
   config.vm.define "cctv-server" do |ubuntu|
     ubuntu.vm.hostname = "cctv.dev"
