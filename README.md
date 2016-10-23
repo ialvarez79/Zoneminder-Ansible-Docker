@@ -15,4 +15,6 @@ Then go to [http://localhost:8080/zm](http://localhost:8080/zm)
 **Get Started (demo in vagrant):**  
 1. Modify cgi-bin path: Options -> Paths -> PATH_ZMS -> /zm/cgi-bin/nph-zms  
   
-**TODO: Push to metal and include steps**
+**TODO:**  
+1. Push to metal and include steps  
+2. Build custom docker container that depends on mysql container  
