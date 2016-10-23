@@ -1,0 +1,85 @@
+---
+
+- hosts: all
+  become: yes
+  tasks:
+# SOURCE: https://wiki.zoneminder.com/Ubuntu_Server_16.04_64-bit_with_Zoneminder_1.30.0_the_easy_way
+# MODIFICATIONS:
+#   ADDED:
+#   1. Install mysql-server 
+#   2. Install php7
+#     - sudo apt-get install python-software-properties software-properties-common
+#     - sudo LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php
+#   3. Install ffmpeg 
+#   4. cambozola download and copy of file to zoneminder www directory
+#   REMOVED:
+#   1. Enable zoneminder in apache2
+#   2. Modiciation for /usr/share and /var/www directories for apache2 configuration
+#   3. Detailed mysql modification
+  - name: Update cache
+    apt: update_cache=yes
+  - name: Update dist
+    apt: upgrade=dist
+  - name: Install mysql-server 
+    apt: name=mysql-server state=present
+  - name: Install mysqltuner
+    apt: name=mysqltuner state=present
+  - name: Install apache2
+    apt: name=apache2 state=present
+  - name: Install python-software-properties
+    apt: name=python-software-properties state=present
+  - name: Install software-properties-common
+    apt: name=software-properties-common state=present
+  - name: Install vim
+    apt: name=vim state=present
+  - name: Insert zonminder repository
+    apt_repository: repo='ppa:iconnor/zoneminder' 
+  - name: Insert ffmeg repository
+    apt_repository: repo='ppa:mc3man/trusty-media' update_cache=yes
+  - name: Install zoneminder 
+    apt: name=zoneminder state=present
+  - name: Install ffmpeg
+    apt: name=ffmpeg state=present # /usr/bin/ffmpeg
+  - name: Set permissions of /etc/zm/zm.conf
+    file: dest=/etc/zm/zm.conf mode=0740
+  - name: Set permissions of /etc/zm/zm.conf
+    file: dest=/etc/zm/zm.conf owner=root group=www-data
+  - name: Add www-data
+    user: name=www-data
+  - name: Add video user
+    user: name=video
+  - name: Enable Apache cgi
+    apache2_module: name=cgi state=present
+  - name: Enabled Apache rewrite
+    apache2_module: name=rewrite state=present
+  - name: Set permissions for /usr/share/zoneminder/
+    file: dest=/usr/share/zoneminder/ state=directory owner=www-data group=www-data
+  - name: Download cambozola
+    get_url: 
+      url: "http://www.andywilcock.com/code/cambozola/cambozola-latest.tar.gz" 
+      dest: /usr/share/zoneminder/
+  - name: Create directoy for cambozola extraction
+    file: path=/usr/share/zoneminder/cambozola state=directory
+  - name: extract cambozola
+    command: "tar zxf /usr/share/zoneminder/cambozola-latest.tar.gz -C /usr/share/zoneminder/cambozola"
+  - name: Copy cambozola jar to zoneminder www directory
+    command: "cp /usr/share/zoneminder/cambozola/cambozola-0.936/dist/cambozola.jar /usr/share/zoneminder/www/"
+  - name: Assure zoneminder is running
+    service: name=zoneminder state=started
+  - name: Move zoneminder apache2 configuration from conf-available to conf-enabled
+    command: cp /etc/apache2/conf-available/zoneminder.conf /etc/apache2/conf-enabled/ 
+    ignore_errors: yes #  idempotence
+  - name: Set PHP default timezone
+    blockinfile:
+      dest: /etc/php5/apache2/php.ini
+      block: |
+        date.timezone= America/Los_Angeles
+  - name: Reload Apache
+    service: name=apache2 state=restarted
+
+  - name: Assure Apache starts at boot
+    service: name=apache2 enabled=yes
+  - name: Assure Zoneminder starts at boot
+    service: name=zoneminder enabled=yes
+  - name: Assure MySQL starts at boot
+    service: name=mysql enabled=yes
