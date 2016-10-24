@@ -3,7 +3,7 @@
 **Requirements:**  
 1. [Install Vagrant](https://www.vagrantup.com/docs/installation/)  
 2. [Install Ansible](http://docs.ansible.com/ansible/intro_installation.html)  
-3. Install [virtualbox](https://www.virtualbox.org/wiki/Downloads) or [vmware fusion](http://www.vmware.com/products/fusion.html)
+3. Install [virtualbox](https://www.virtualbox.org/wiki/Downloads) or [vmware fusion](http://www.vmware.com/products/fusion.html)  
 4. [Install Vagrant VMWare (if you want to use vmware)](https://www.vagrantup.com/vmware/)  
 
 **virtualbox example:**  
