@@ -7,11 +7,8 @@
 # MODIFICATIONS:
 #   ADDED:
 #   1. Install mysql-server 
-#   2. Install php7
-#     - sudo apt-get install python-software-properties software-properties-common
-#     - sudo LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php
-#   3. Install ffmpeg 
-#   4. cambozola download and copy of file to zoneminder www directory
+#   2. Install ffmpeg 
+#   3. cambozola download and copy of file to zoneminder www directory
 #   REMOVED:
 #   1. Enable zoneminder in apache2
 #   2. Modiciation for /usr/share and /var/www directories for apache2 configuration
@@ -61,6 +58,7 @@
   - name: Create directoy for cambozola extraction
     file: path=/usr/share/zoneminder/cambozola state=directory
   - name: extract cambozola
+    #unarchive: src=/usr/share/zoneminder/cambozola-latest.tar.gz dest=/usr/share/zoneminder/cambozola remote_src=yes
     command: "tar zxf /usr/share/zoneminder/cambozola-latest.tar.gz -C /usr/share/zoneminder/cambozola"
   - name: Copy cambozola jar to zoneminder www directory
     command: "cp /usr/share/zoneminder/cambozola/cambozola-0.936/dist/cambozola.jar /usr/share/zoneminder/www/"
