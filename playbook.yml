@@ -74,7 +74,6 @@
         date.timezone= America/Los_Angeles
   - name: Reload Apache
     service: name=apache2 state=restarted
-
   - name: Assure Apache starts at boot
     service: name=apache2 enabled=yes
   - name: Assure Zoneminder starts at boot

@@ -7,6 +7,7 @@ Vagrant.configure(2) do |config|
     
     ubuntu.vm.network "forwarded_port", guest: 80, host: 8080
 
+    # PROVIDER OPTIONS
     # vagrant up --provider vmware_fusion
     #ubuntu.vm.box = "slowe/ubuntu-trusty-x64"
     #ubuntu.vm.provider "vmware_fusion" do |vb|
@@ -21,9 +22,18 @@ Vagrant.configure(2) do |config|
         vb.memory = 2048
         vb.cpus = 2
     end
-
+    
+    # PROVISIONING OPTIONS
     ubuntu.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbook.yml"
+    end
+    
+    ubuntu.vm.provision "file", source: "Dockerfile", destination: "/home/vagrant/Dockerfile"
+    ubuntu.vm.provision "file", source: "entrypoint.sh", destination: "/home/vagrant/entrypoint.sh"
+
+    ubuntu.vm.provision "docker" do |docker|
+      docker.build_image "/home/vagrant",
+        args: "-t rileyschuit/zoneminder"
     end
   end
 end
