@@ -46,7 +46,13 @@ RUN chmod +x /etc/init.d/zoneminder && \
   cd /usr/src && \
   wget http://www.charliemouse.com:8080/code/cambozola/cambozola-0.936.tar.gz && \
   tar -xzvf cambozola-0.936.tar.gz && \
-  cp cambozola-0.936/dist/cambozola.jar /usr/share/zoneminder && \
+  cp cambozola-0.936/dist/cambozola.jar /usr/share/zoneminder/www && \
+  rm /usr/share/zoneminder/www/tools/mootools/mootools-more.js && \
+  rm /usr/share/zoneminder/www/tools/mootools/mootools-core.js && \
+  cp /usr/share/javascript/mootools/mootools-more.js /usr/share/zoneminder/www/tools/mootools/ && \
+  cp /usr/share/javascript/mootools/mootools.js /usr/share/zoneminder/www/tools/mootools/mootools-core.js && \
+  #chown www-data -R /usr/share/javascript/mootools/* && \
+  chown www-data -R /usr/share/zoneminder/www && \
   chown www-data /etc/zm/zm.conf && \
   cp /etc/zm/zm.conf /root/zm.conf && \
   update-rc.d -f apache2 remove && \
