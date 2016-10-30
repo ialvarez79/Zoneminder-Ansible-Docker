@@ -2,6 +2,7 @@ FROM phusion/baseimage:0.9.16
 
 # Forked from:
 #MAINTAINER aptalca
+MAINTAINER riley.schuit@gmail.com
 
 VOLUME ["/config"]
 
