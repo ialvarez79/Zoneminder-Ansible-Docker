@@ -16,6 +16,6 @@ Then go to [http://localhost:8080/zm](http://localhost:8080/zm)
 **Get Started (demo in vagrant):**  
 1. Modify cgi-bin path: Options -> Paths -> PATH_ZMS -> /zm/cgi-bin/nph-zms  
   
-**TODO:**  
-1. Push to metal and include steps  
-2. Build custom docker container that optionally depends on mysql container  
+**Run docker container**  
+docker run -d --name="Zoneminder" --privileged=true -v /path/to/config:/config:rw -v /etc/localtime:/etc/localtime:ro -p 80:80 rileyschuit/zoneminder  
+

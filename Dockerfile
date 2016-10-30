@@ -1,43 +1,53 @@
-######################
-#                    #
-# UNDER CONSTRUCTION #
-#                    #
-######################
+FROM phusion/baseimage:0.9.16
 
-FROM ubuntu:16.04
+# Forked from:
+#MAINTAINER aptalca
 
-ENV ROOT_MYSQL_PW uberpass
-ENV MYSQL_USER_PW zmpass
-ENV MYSQL_USER    zmuser
-ENV MYSQL_HOST    mysql
-ENV MYSQL_DB      zoneminder
-ENV DEBIAN_FRONTEND=noninteractive
-
-RUN apt-get update
-RUN apt-get dist-upgrade -y 
-RUN echo "mysql-server mysql-server/root_password password supersecretpass" | debconf-set-selections
-RUN echo "mysql-server mysql-server/root_password_again password supersecretpass" | debconf-set-selections
-RUN apt-get install -y mysql-server
-RUN apt-get install -y mysqltuner
-RUN apt-get install -y apache2
-RUN apt-get install -y python-software-properties
-RUN apt-get install -y software-properties-common
-#RUN add-apt-repository -y ppa:iconnor/zoneminder
-RUN apt-get update
-RUN apt-get install -y zoneminder 
-RUN rm /etc/mysql/my.cnf && cp /etc/mysql/mysql.conf.d/mysqld.cnf /etc/mysql/my.cnf
-RUN apt-get install -y ffmpeg # /usr/bin/ffmpeg
-#RUN mysql -uroot -e "CREATE DATABASE 'zm'"
-#RUN mysql -uroot -e "grant all on zm.* to 'zmuser'@localhost identified by 'zmpass';"
-RUN chmod 0740 /etc/zm/zm.conf
-RUN chown root:www-data /etc/zm/zm.conf
-RUN a2enmod cgi
-RUN a2enmod rewrite
-RUN cp /etc/apache2/conf-available/zoneminder.conf /etc/apache2/conf-enabled/ 
-
-# This doesn't seem to work, not sure why:
-ADD ./entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-CMD /entrypoint.sh
+VOLUME ["/config"]
 
 EXPOSE 80
+
+RUN export DEBCONF_NONINTERACTIVE_SEEN=true DEBIAN_FRONTEND=noninteractive && \
+  apt-get update && \
+  apt-get install -y \
+  software-properties-common \
+  python-software-properties && \
+  add-apt-repository -y ppa:iconnor/zoneminder && \
+  apt-get update && \
+  apt-get install -y \
+  wget \
+  apache2 \
+  mysql-server \
+  php5 \
+  libapache2-mod-php5 \
+  usbutils && \
+  service apache2 restart && \
+  service mysql restart && \
+  apt-get install -y \
+  zoneminder \
+  libvlc-dev \
+  libvlccore-dev vlc && \
+  a2enmod cgi && \
+  service apache2 restart && \
+  service mysql restart && \
+  rm -r /etc/init.d/zoneminder && \
+  mkdir -p /etc/my_init.d
+
+ADD zoneminder /etc/init.d/zoneminder
+ADD firstrun.sh /etc/my_init.d/firstrun.sh
+
+RUN chmod +x /etc/init.d/zoneminder && \
+  chmod +x /etc/my_init.d/firstrun.sh && \
+  echo "date.timezone= America/Los_Angeles" >> /etc/php5/apache2/php.ini && \
+  cp /etc/apache2/conf-available/zoneminder.conf /etc/apache2/conf-enabled/ && \
+  adduser www-data video && \
+  service apache2 restart && \
+  cd /usr/src && \
+  wget http://www.charliemouse.com:8080/code/cambozola/cambozola-0.936.tar.gz && \
+  tar -xzvf cambozola-0.936.tar.gz && \
+  cp cambozola-0.936/dist/cambozola.jar /usr/share/zoneminder && \
+  chown www-data /etc/zm/zm.conf && \
+  cp /etc/zm/zm.conf /root/zm.conf && \
+  update-rc.d -f apache2 remove && \
+  update-rc.d -f mysql remove && \
+  update-rc.d -f zoneminder remove
