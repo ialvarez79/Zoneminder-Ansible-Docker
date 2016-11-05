@@ -14,19 +14,19 @@ Then go to [http://localhost:8080/zm](http://localhost:8080/zm)
 Then go to [http://localhost:8080/zm](http://localhost:8080/zm)  
   
 **Get Started (demo in vagrant):**  
-1. Modify cgi-bin path: Options -> Paths -> PATH_ZMS -> /zm/cgi-bin/nph-zms  
+Modify cgi-bin path: Options -> Paths -> PATH_ZMS -> /zm/cgi-bin/nph-zms  
   
 **Push to bare metal or VM**
-1. Modify ansible.cfg:  
+Modify ansible.cfg:  
 ```
 [defaults]  
 host_key_checking = False
 ```  
-2. Create hosts file:  
+Create hosts file:  
 ```
 10.0.1.2 ansible_user=root
-```
-3. Example command:  
+```  
+Example command:  
 ansible-playbook -i hosts playbook.yml --ask-pass  
   
 **Run docker container -performance sucks for HD cameras**  
