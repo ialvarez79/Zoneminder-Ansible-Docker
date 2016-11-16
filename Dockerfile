@@ -41,6 +41,7 @@ RUN chmod +x /etc/init.d/zoneminder && \
   chmod +x /etc/my_init.d/firstrun.sh && \
   echo "date.timezone= America/Los_Angeles" >> /etc/php5/apache2/php.ini && \
   cp /etc/apache2/conf-available/zoneminder.conf /etc/apache2/conf-enabled/ && \
+  cp /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/ && \
   adduser www-data video && \
   service apache2 restart && \
   cd /usr/src && \

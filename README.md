@@ -27,9 +27,13 @@ Create hosts file:
 10.0.1.2 ansible_user=root
 ```  
 Example command:  
+```
 ansible-playbook -i hosts playbook.yml --ask-pass  
-  
-**Run docker container -performance sucks for HD cameras**  
-docker run -d --name="Zoneminder" --privileged=true -v /path/to/config:/config:rw -v /etc/localtime:/etc/localtime:ro -p 80:80 rileyschuit/zoneminder  
-  
+```  
+
+**Run docker container**    
+```
+docker run -d --name="Zoneminder" --privileged=true -v /path/to/config:/config:rw -v /etc/localtime:/etc/localtime:ro -p 80:80 rileyschuit/zoneminder
+```  
+
 
