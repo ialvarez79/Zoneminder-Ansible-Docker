@@ -14,6 +14,7 @@ RUN export DEBCONF_NONINTERACTIVE_SEEN=true DEBIAN_FRONTEND=noninteractive && \
   software-properties-common \
   python-software-properties && \
   add-apt-repository -y ppa:iconnor/zoneminder && \
+  add-apt-repository ppa:jonathonf/ffmpeg-3 && \
   apt-get update && \
   apt-get install -y \
   wget \
@@ -27,7 +28,9 @@ RUN export DEBCONF_NONINTERACTIVE_SEEN=true DEBIAN_FRONTEND=noninteractive && \
   apt-get install -y \
   zoneminder \
   libvlc-dev \
-  libvlccore-dev vlc && \
+  libvlccore-dev \
+  vlc \ 
+  ffmpeg && \
   a2enmod cgi && \
   service apache2 restart && \
   service mysql restart && \
@@ -36,6 +39,8 @@ RUN export DEBCONF_NONINTERACTIVE_SEEN=true DEBIAN_FRONTEND=noninteractive && \
 
 ADD zoneminder /etc/init.d/zoneminder
 ADD firstrun.sh /etc/my_init.d/firstrun.sh
+
+RUN apt-get clean
 
 RUN chmod +x /etc/init.d/zoneminder && \
   chmod +x /etc/my_init.d/firstrun.sh && \

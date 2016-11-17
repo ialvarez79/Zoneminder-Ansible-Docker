@@ -13,10 +13,8 @@ Then go to [http://localhost:8080/zm](http://localhost:8080/zm)
 ```vagrant up --provider vmware_fusion```  
 Then go to [http://localhost:8080/zm](http://localhost:8080/zm)  
   
-**Get Started (demo in vagrant):**  
-Modify cgi-bin path: Options -> Paths -> PATH_ZMS -> /zm/cgi-bin/nph-zms  
   
-**Push to bare metal or VM**
+**ANSIBLE:**
 Modify ansible.cfg:  
 ```
 [defaults]  
@@ -30,10 +28,12 @@ Example command:
 ```
 ansible-playbook -i hosts playbook.yml --ask-pass  
 ```  
-
-**Run docker container**    
+  
+**DOCKER:**    
 ```
 docker run -d --name="Zoneminder" --privileged=true -v /path/to/config:/config:rw -v /etc/localtime:/etc/localtime:ro -p 80:80 rileyschuit/zoneminder
 ```  
-
-
+  
+**Get Started:**  
+1. Modify cgi-bin path: Options -> Paths -> PATH_ZMS -> /zm/cgi-bin/nph-zms  
+2. **BEFORE YOU ADD CAMERAS**, Enable video export: Options -> OPT_FFMPEG (enable). PATH_FFMPEG: /usr/bin/ffmpeg  
