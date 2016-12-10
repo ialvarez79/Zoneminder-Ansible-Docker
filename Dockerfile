@@ -22,7 +22,8 @@ RUN export DEBCONF_NONINTERACTIVE_SEEN=true DEBIAN_FRONTEND=noninteractive && \
   mysql-server \
   php5 \
   libapache2-mod-php5 \
-  usbutils && \
+  usbutils \
+  supervisor && \
   service apache2 restart && \
   service mysql restart && \
   apt-get install -y \
@@ -37,8 +38,11 @@ RUN export DEBCONF_NONINTERACTIVE_SEEN=true DEBIAN_FRONTEND=noninteractive && \
   rm -r /etc/init.d/zoneminder && \
   mkdir -p /etc/my_init.d
 
+ADD zoneminder-supervisord.conf /etc/supervisor/conf.d/zoneminder.conf
 ADD zoneminder /etc/init.d/zoneminder
 ADD firstrun.sh /etc/my_init.d/firstrun.sh
+
+RUN /etc/init.d/supervisor restart && supervisorctl reload
 
 RUN apt-get clean
 
