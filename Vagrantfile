@@ -24,17 +24,17 @@ Vagrant.configure(2) do |config|
     end
     
     # PROVISIONING OPTIONS
-    #ubuntu.vm.provision "ansible" do |ansible|
-    #  ansible.playbook = "playbook.yml"
-    #end
-    
-    ubuntu.vm.provision "file", source: "Dockerfile", destination: "/home/vagrant/Dockerfile"
-    ubuntu.vm.provision "file", source: "zoneminder", destination: "/home/vagrant/zoneminder"
-    ubuntu.vm.provision "file", source: "firstrun.sh", destination: "/home/vagrant/firstrun.sh"
-
-    ubuntu.vm.provision "docker" do |docker|
-      docker.build_image "/home/vagrant",
-        args: "-t rileyschuit/zoneminder"
+    ubuntu.vm.provision "ansible" do |ansible|
+      ansible.playbook = "playbook.yml"
     end
+    
+    #ubuntu.vm.provision "file", source: "Dockerfile", destination: "/home/vagrant/Dockerfile"
+    #ubuntu.vm.provision "file", source: "zoneminder", destination: "/home/vagrant/zoneminder"
+    #ubuntu.vm.provision "file", source: "firstrun.sh", destination: "/home/vagrant/firstrun.sh"
+
+    #ubuntu.vm.provision "docker" do |docker|
+    #  docker.build_image "/home/vagrant",
+    #    args: "-t rileyschuit/zoneminder"
+    #end
   end
 end

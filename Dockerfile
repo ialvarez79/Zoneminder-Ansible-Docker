@@ -27,7 +27,7 @@ RUN export DEBCONF_NONINTERACTIVE_SEEN=true DEBIAN_FRONTEND=noninteractive && \
   service apache2 restart && \
   service mysql restart && \
   apt-get install -y \
-  zoneminder \
+  zoneminder=1.30.4-trusty1 \
   libvlc-dev \
   libvlccore-dev \
   vlc \ 
