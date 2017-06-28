@@ -1,5 +1,5 @@
 ##Zoneminder playbook with vagrant repro enviroment##
-  
+
 **Requirements:**  
 1. [Install Vagrant](https://www.vagrantup.com/docs/installation/)  
 2. [Install Ansible](http://docs.ansible.com/ansible/intro_installation.html)  
@@ -12,8 +12,8 @@ Then go to [http://localhost:8080/zm](http://localhost:8080/zm)
 **vmware_fusion example:**  
 ```vagrant up --provider vmware_fusion```  
 Then go to [http://localhost:8080/zm](http://localhost:8080/zm)  
-  
-  
+
+
 **ANSIBLE:**
 Modify ansible.cfg:  
 ```
@@ -28,12 +28,13 @@ Example command:
 ```
 ansible-playbook -i hosts playbook.yml --ask-pass  
 ```  
-  
-**DOCKER:**    
+
+**DOCKER:**   
+NOTE:  If you require access to devices on the host, use ``` --privledged=true ```  
 ```
-docker run -d --name="Zoneminder" --privileged=true -v /path/to/config:/config:rw -v /etc/localtime:/etc/localtime:ro -p 80:80 rileyschuit/zoneminder
+docker run -d --name="Zoneminder" -v /path/to/config:/config:rw -v /etc/localtime:/etc/localtime:ro -p 80:80 rileyschuit/zoneminder
 ```  
-  
+
 **Get Started:**  
 1. Modify cgi-bin path: Options -> Paths -> PATH_ZMS -> /zm/cgi-bin/nph-zms  
 2. **BEFORE YOU ADD CAMERAS**, Enable video export: Options -> OPT_FFMPEG (enable). PATH_FFMPEG: /usr/bin/ffmpeg  
