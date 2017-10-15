@@ -38,3 +38,4 @@ docker run -d --name="Zoneminder" -v /path/to/config:/config:rw -v /etc/localtim
 **Get Started:**  
 1. Modify cgi-bin path: Options -> Paths -> PATH_ZMS -> /zm/cgi-bin/nph-zms  
 2. **BEFORE YOU ADD CAMERAS**, Enable video export: Options -> OPT_FFMPEG (enable). PATH_FFMPEG: /usr/bin/ffmpeg  
+ 
